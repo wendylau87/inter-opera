@@ -70,7 +70,7 @@ Once the server is running, you can access the auto-generated Swagger documentat
 
 ### Sales Representatives
 
-- `GET /api/sales`: Get paginated list of sales representatives
+- `GET /api/sales-reps`: Get paginated list of sales representatives
   - Query Parameters:
     - `page`: Page number (default: 1)
     - `page_size`: Items per page (default: 10)
@@ -80,8 +80,6 @@ Once the server is running, you can access the auto-generated Swagger documentat
     - `name`: Filter by name
     - `role`: Filter by role
     - `region`: Filter by region
-
-- `GET /api/sales/{id}`: Get detailed information about a specific sales representative
 
 ### AI Insights
 
