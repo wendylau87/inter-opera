@@ -1,22 +1,30 @@
+// frontend/pages/index.js
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [users, setUsers] = useState([]);
+  const [salesReps, setSalesReps] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/data")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users || []);
+    const fetchSalesReps = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/sales-reps");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setSalesReps(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch data:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchSalesReps();
   }, []);
 
   const handleAskQuestion = async () => {
@@ -35,17 +43,19 @@ export default function Home() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Next.js + FastAPI Sample</h1>
+      <h1>Sales Dashboard</h1>
 
       <section style={{ marginBottom: "2rem" }}>
-        <h2>Dummy Data</h2>
+        <h2>Sales Representatives</h2>
         {loading ? (
           <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
         ) : (
           <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.name} - {user.role}
+            {salesReps.map((rep) => (
+              <li key={rep.id}>
+                {rep.name} - {rep.deals.length} deals
               </li>
             ))}
           </ul>
