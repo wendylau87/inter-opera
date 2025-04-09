@@ -1,55 +1,111 @@
-# Backend for Sales Dashboard
+# Sales Dashboard Backend API
 
-This backend is built using FastAPI and serves as the API layer for the Sales Dashboard application. It provides endpoints to fetch sales representatives data and a basic AI endpoint.
+A robust FastAPI backend service that provides data for the Sales Dashboard application, including sales representatives information and AI-powered insights.
 
-## Endpoints
+## Features
 
-### GET /api/sales-reps
+- **RESTful API**: Clean and well-structured API endpoints
+- **Server-side Pagination**: Efficient handling of large datasets
+- **Filtering & Sorting**: Advanced data filtering and sorting capabilities
+- **AI Integration**: Natural language processing for sales data insights
+- **Mock Data Generation**: Built-in mock data for development and testing
+- **CORS Support**: Configured for cross-origin requests from the frontend
+- **Swagger Documentation**: Auto-generated API documentation
 
-- **Description**: Returns a list of sales representatives.
-- **Response**: JSON array of sales representatives.
+## Tech Stack
 
-### POST /api/ai
+- **FastAPI**: Modern, high-performance web framework for building APIs
+- **Pydantic**: Data validation and settings management
+- **Uvicorn**: ASGI server for serving the FastAPI application
+- **Python 3.8+**: Modern Python features
+- **OpenAI Integration**: For AI-powered insights (configurable)
 
-- **Description**: Accepts a user question and returns a placeholder AI response.
-- **Request Body**: JSON object with a `question` field.
-- **Response**: JSON object with an `answer` field.
+## Getting Started
 
-## Setup Instructions
+### Prerequisites
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/<your-username>/<repo-name>.git
-   cd <repo-name>/backend
+- Python 3.8 or higher
+- pip (Python package manager)
+- Virtual environment (recommended)
+
+### Installation
+
+1. Clone the repository
+2. Navigate to the backend directory:
    ```
-
-2. **Create a Virtual Environment**:
-   ```bash
+   cd backend
+   ```
+3. Create and activate a virtual environment:
+   ```
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-
-3. **Install Dependencies**:
-   ```bash
+4. Install dependencies:
+   ```
    pip install -r requirements.txt
    ```
-
-4. **Run the Server**:
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+5. Create a `.env` file with the following variables (optional):
+   ```
+   OPENAI_API_KEY=your_openai_api_key  # Only needed if using real OpenAI integration
    ```
 
-5. **Run Tests**:
-   ```bash
-   pytest test_main.py
-   ```
+### Running the Server
 
-## Dependencies
+Start the development server:
 
-- FastAPI
-- Uvicorn
+```
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
 
-## Notes
+The API will be available at [http://localhost:8000](http://localhost:8000).
 
-- Ensure the `dummyData.json` file is located in the `backend` directory.
-- The AI endpoint currently returns a placeholder response. You can integrate a real AI model or service as needed.
+### API Documentation
+
+Once the server is running, you can access the auto-generated Swagger documentation:
+
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+## API Endpoints
+
+### Sales Representatives
+
+- `GET /api/sales`: Get paginated list of sales representatives
+  - Query Parameters:
+    - `page`: Page number (default: 1)
+    - `page_size`: Items per page (default: 10)
+    - `sort_by`: Field to sort by
+    - `sort_order`: Sort direction ('asc' or 'desc')
+    - `id`: Filter by ID
+    - `name`: Filter by name
+    - `role`: Filter by role
+    - `region`: Filter by region
+
+- `GET /api/sales/{id}`: Get detailed information about a specific sales representative
+
+### AI Insights
+
+- `POST /api/ai`: Get AI-powered insights about sales data
+  - Request Body:
+    - `question`: Natural language question about sales data
+
+## Project Structure
+
+```
+backend/
+├── data/                # Mock data and data generation utilities
+│   └── mock_data.py     # Mock data generation for sales representatives
+├── models/              # Pydantic models for data validation
+│   └── sales.py         # Models for sales representatives data
+├── routes/              # API route handlers
+│   ├── ai.py            # AI insights endpoint
+│   └── sales.py         # Sales representatives endpoints
+├── services/            # Business logic services
+│   └── ai_service.py    # AI processing service
+├── .env                 # Environment variables (not in repo)
+├── .gitignore           # Git ignore file
+├── main.py              # Application entry point
+├── requirements.txt     # Project dependencies
+└── README.md            # Project documentation
+```
+
