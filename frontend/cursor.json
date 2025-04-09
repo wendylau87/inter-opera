@@ -1,0 +1,17 @@
+{
+    "includePattern": [
+      "**/*"
+    ],
+    "excludePattern": [
+      "node_modules/**/*",
+      ".git/**/*",
+      "dist/**/*",
+      "build/**/*",
+      "*.log",
+      "*.lock",
+      "*.env"
+    ],
+    "defaultContext": true,
+    "maxFileSizeKb": 1024,
+    "maxFileCount": 1000
+  }
